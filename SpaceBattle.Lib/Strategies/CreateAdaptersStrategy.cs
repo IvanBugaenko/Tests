@@ -7,6 +7,6 @@ public class CreateAdapters : IStrategy //Ioc.Resolve<тип, к котором�
     {
         Type t = (Type) args[0];
         IUObject obj = (IUObject) args[1];
-        return Activator.CreateInstance(t, obj);
+        return Activator.CreateInstance(t, obj)!;
     }
 }
