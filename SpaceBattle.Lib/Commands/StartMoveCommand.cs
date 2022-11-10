@@ -2,15 +2,17 @@ namespace SpaceBattle.Lib;
 
 public class StartMoveCommand: ICommand
 {
-    IMoveStartable MoveStart;
+    IMoveStartable order;
 
-    public StartMoveCommand(IMoveStartable a)
+    public StartMoveCommand(IMoveStartable order)
     {
-        this.MoveStart = a;
+        this.order = order;
     }
 
     public void Execute()
     {
-        // IoC.Resolve<ICommand>("Game.Command.SetProperty", MoveStart.getObject, "Speed", MoveStart.getSpeed).Execute();
+        IoC.Resolve<ICommand>("Game.Command.SetProperty", order.Target, "Speed", order.Speed).Execute();
+
+        IMovable move_obj = IoC.Resolve<IMovable>("CreateAdapter", typeof(MovableAdapter), order.Target);
     }
 }
