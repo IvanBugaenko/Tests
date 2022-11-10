@@ -2,11 +2,11 @@ namespace SpaceBattle.Lib;
 
 public interface IMoveStartable
 {
-    IUObject getObject
+    IUObject Target
     {
         get;
     }
-    Vector getSpeed
+    int Speed
     {
         get;
     }

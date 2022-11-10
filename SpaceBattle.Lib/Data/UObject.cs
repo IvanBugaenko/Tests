@@ -2,17 +2,17 @@ namespace SpaceBattle.Lib;
 
 public class UObject: IUObject
 {
-    private IDictionary<string, object> Dict;
+    private IDictionary<string, object> store;
     public UObject()
     {
-        this.Dict = new Dictionary<string, object>();
+        this.store = new Dictionary<string, object>();
     }
     public void setProperty(string key, object value)
     {
-        this.Dict[key] = value;
+        this.store[key] = value;
     }
     public object getProperty(string key)
     {
-        return Dict[key];
+        return store[key];
     }
 }

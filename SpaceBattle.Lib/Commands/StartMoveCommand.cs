@@ -11,6 +11,6 @@ public class StartMoveCommand: ICommand
 
     public void Execute()
     {
-        IoC.Resolve<ICommand>("Game.Command.SetProperty", MoveStart.getObject, "Speed", MoveStart.getSpeed).Execute();
+        // IoC.Resolve<ICommand>("Game.Command.SetProperty", MoveStart.getObject, "Speed", MoveStart.getSpeed).Execute();
     }
 }
