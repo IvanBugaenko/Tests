@@ -13,6 +13,12 @@ public class StartMoveCommand: ICommand
     {
         IoC.Resolve<ICommand>("Game.Command.SetProperty", order.Target, "Speed", order.Speed).Execute();
 
-        IMovable move_obj = IoC.Resolve<IMovable>("CreateAdapter", typeof(MovableAdapter), order.Target);
+        // IMovable move_obj = IoC.Resolve<IMovable>("CreateAdapter", typeof(MovableAdapter), order.Target);
+
+        ICommand cmd = IoC.Resolve<ICommand>("Game.Move", order.Target);
+
+        // IoC.Resolve<ICommand>("Game.Command.SetProperty", order.Target, "Move", cmd).Execute();
+
+        IoC.Resolve<ICommand>("Queue.Push", IoC.Resolve<IQueue<ICommand>>("Game.Queue"), cmd).Execute();
     }
 }

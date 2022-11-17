@@ -1,3 +1,7 @@
 1) Изменить github.yml
 2) Сделать команду DeleteProperty и стратегию соответствующую
 3) Сделать команду удаления стратегии в IoC
+
+IMoveStopable, StartMoveCommand, StopMoveCommand
+
+dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=Icov /p:CoverletOutput=./Icov.info
