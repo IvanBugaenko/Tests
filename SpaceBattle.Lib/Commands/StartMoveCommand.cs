@@ -1,24 +1,20 @@
-namespace SpaceBattle.Lib;
-
-public class StartMoveCommand: ICommand
+namespace SpaceBattle.Lib.ForT;
+public class StartMoveCommand : ICommand
 {
-    IMoveStartable order;
+    IMoveStartable startable;
+    IEnumerable<string> listcomands;
 
-    public StartMoveCommand(IMoveStartable order)
+    public StartMoveCommand(IMoveStartable startable, IEnumerable<string> listcomands)
     {
-        this.order = order;
+        this.startable = startable;
+        this.listcomands = listcomands;
     }
 
     public void Execute()
     {
-        IoC.Resolve<ICommand>("Game.Command.SetProperty", order.Target, "Speed", order.Speed).Execute();
-
-        // IMovable move_obj = IoC.Resolve<IMovable>("CreateAdapter", typeof(MovableAdapter), order.Target);
-
-        ICommand cmd = IoC.Resolve<ICommand>("Game.Move", order.Target);
-
-        // IoC.Resolve<ICommand>("Game.Command.SetProperty", order.Target, "Move", cmd).Execute();
-
-        IoC.Resolve<ICommand>("Queue.Push", IoC.Resolve<IQueue<ICommand>>("Game.Queue"), cmd).Execute();
+        IoC.Resolve<ICommand>("Game.Commands.SetProperty", startable.Target, "Speed", startable.Speed).Execute();
+        ICommand cmd  = IoC.Resolve<ICommand>("Game.Commands.Move", startable.Target, listcomands);
+        IoC.Resolve<ICommand>("Game.Queue.Push", IoC.Resolve<IQueue<ICommand>>("Game.Queue"), cmd).Execute();
     }
+
 }
