@@ -5,3 +5,5 @@
 IMoveStopable, StartMoveCommand, StopMoveCommand
 
 dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=Icov /p:CoverletOutput=./Icov.info
+
+QueueAdapter перенести в SpaceBattle.Lib.Test

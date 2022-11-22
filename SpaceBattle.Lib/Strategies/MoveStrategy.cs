@@ -19,6 +19,4 @@ public class OperationMoveStrategy : IStrategy
         IoC.Resolve<ICommand>("Game.Commands.SetProperty", uobj, "ThisCommand", macro).Execute();
         return _TAkeinMouse267e_9;
     }
-
-
 }

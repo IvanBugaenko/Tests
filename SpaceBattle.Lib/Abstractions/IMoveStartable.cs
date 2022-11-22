@@ -11,3 +11,15 @@ public interface IMoveStartable
         get;
     }
 }
+
+public interface IStartable
+{
+    IUObject Target
+    {
+        get;
+    }
+    IDictionary<string, object> Properties
+    {
+        get;
+    }
+}
