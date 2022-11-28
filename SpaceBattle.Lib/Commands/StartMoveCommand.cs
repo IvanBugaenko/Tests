@@ -1,21 +1,17 @@
 namespace SpaceBattle.Lib;
-public class StartMoveCommand : ICommand
-{
-    IMoveStartable startable;
-    IEnumerable<string> listcomands;
 
-    public StartMoveCommand(IMoveStartable startable, IEnumerable<string> listcomands)
+class StartCommand: ICommand
+{
+    private IStartable obj;
+    public StartCommand(IStartable obj)
     {
-        this.startable = startable;
-        this.listcomands = listcomands;
-    }
+        this.obj = obj;
+    }  
 
     public void Execute()
     {
-        IoC.Resolve<ICommand>("Game.Commands.SetProperty", startable.Target, "Speed", startable.Speed).Execute(); // засетит нужное -- супер стратегия
-        ICommand cmd  = IoC.Resolve<ICommand>("Game.Commands.Move", startable.Target, listcomands);
-        //добавлять репитнутую здесь
-        IoC.Resolve<ICommand>("Game.Queue.Push", IoC.Resolve<IQueue<ICommand>>("Game.Queue"), cmd).Execute();
+        obj.Properties;
+        ICommand cmd = IoC.Resolve<ICommand>("Game.Movement", obj.Target);
+        IoC.Resolve<ICommand>("Game.Queue.Push", IoC.Resolve<Queue<ICommand>>("Game.Queue"), cmd).Execute();
     }
-
 }
