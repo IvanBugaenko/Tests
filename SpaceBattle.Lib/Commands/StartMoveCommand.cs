@@ -16,7 +16,7 @@ namespace SpaceBattle.Lib;
 //     }
 // }
 
-class StartMoveCommand: ICommand
+public class StartMoveCommand: ICommand
 {
     private IMoveStartable obj;
     public StartMoveCommand(IMoveStartable obj)

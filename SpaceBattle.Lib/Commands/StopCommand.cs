@@ -1,6 +1,6 @@
 namespace SpaceBattle.Lib;
 
-class StopMoveCommand: ICommand
+public class StopMoveCommand: ICommand
 {
     private IMoveCommandEndable obj;
     public StopMoveCommand(IMoveCommandEndable obj)
