@@ -6,9 +6,6 @@ public class StartMoveCommandTests
 {
     public StartMoveCommandTests()
     {
-        // var mockStrategy = new Mock<IStrategy>();
-        // mockStrategy.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(It.IsAny<object>());
-
         var mockCommand = new Mock<ICommand>();
         mockCommand.Setup(x => x.Execute());
 
@@ -27,16 +24,47 @@ public class StartMoveCommandTests
     [Fact]
     public void NormTest()
     {
-        var startable =  new Mock<IMoveStartable>();
+        var startable = new Mock<IMoveStartable>();
         var obj = new Mock<IUObject>();
 
-        startable.Setup(a => a.Target).Returns(obj.Object).Verifiable();
-        startable.Setup(a => a.Speed).Returns(new Vector(-7, 3)).Verifiable();
+        startable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
+        startable.SetupGet(a => a.Speed).Returns(new Vector(-7, 3)).Verifiable();
 
         ICommand startMove = new StartMoveCommand(startable.Object);
 
         startMove.Execute();
 
         startable.VerifyAll();
+    }
+
+    [Fact]
+    public void TargetMethodReturnsException()
+    {
+        var startable = new Mock<IMoveStartable>();
+
+        startable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
+        startable.SetupGet(a => a.Speed).Returns(new Vector(-7, 3)).Verifiable();
+
+        ICommand startMove = new StartMoveCommand(startable.Object);
+
+        Assert.Throws<Exception>(() => startMove.Execute());
+
+        startable.Verify(m => m.Speed, Times.Never());
+    }
+
+    [Fact]
+    public void SpeedMethodReturnsException()
+    {
+        var startable = new Mock<IMoveStartable>();
+        var obj = new Mock<IUObject>();
+
+        startable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
+        startable.SetupGet(a => a.Speed).Throws<Exception>().Verifiable();
+
+        ICommand startMove = new StartMoveCommand(startable.Object);
+
+        Assert.Throws<Exception>(() => startMove.Execute());
+
+        startable.Verify(m => m.Target, Times.Once());
     }
 }

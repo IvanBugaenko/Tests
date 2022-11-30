@@ -11,7 +11,6 @@ public class StopMoveCommand: ICommand
     public void Execute()
     {
         IoC.Resolve<ICommand>("Game.Commands.RemoveProperty", obj.Target, "Speed").Execute();
-        ICommand cmd = IoC.Resolve<ICommand>("Game.Operations.StopMoving", obj.Target, obj.Move);
-        IoC.Resolve<ICommand>("Game.Queue.Push", IoC.Resolve<Queue<ICommand>>("Game.Queue"), cmd).Execute();
+        IoC.Resolve<ICommand>("Game.Commands.SetProperty", obj.Target, "Moving", IoC.Resolve<ICommand>("Game.Commands.EmptyCommand")).Execute();
     }
 }
