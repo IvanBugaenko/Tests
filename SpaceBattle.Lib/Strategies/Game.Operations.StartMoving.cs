@@ -8,11 +8,14 @@ public class StartMovingStrategy : IStrategy
 
         IEnumerable<ICommand> list_command = new List<ICommand>();
 
-        IoC.Resolve<IEnumerable<string>>("Game.Config").ToList().ForEach(str => list_command.Append(IoC.Resolve<ICommand>(str)));
+        IoC.Resolve<IEnumerable<string>>("Game.Config.ForMove").ToList().ForEach(str => list_command.Append(IoC.Resolve<ICommand>(str, obj)));
 
-        ICommand inject_command = IoC.Resolve<ICommand>("");
+        ICommand macroCommand = IoC.Resolve<ICommand>("Game.Command.Macro", list_command);
         
-        IoC.Resolve<ICommand>("Game.Commands.SetProperty", obj, inject_command).Execute();
+        ICommand inject_command = IoC.Resolve<ICommand>("Game.Command.Inject", macroCommand);
+        
+        ICommand repeatCommand = IoC.Resolve<ICommand>("Game.Command.Repeat", inject_command);
+        list_command.Append(repeatCommand);
 
         return inject_command;
     }
