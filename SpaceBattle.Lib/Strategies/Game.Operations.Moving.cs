@@ -1,14 +1,14 @@
 namespace SpaceBattle.Lib;
 
-public class StartMovingStrategy : IStrategy
+public class MovingStrategy : IStrategy
 {
     public object RunStrategy(params object[] args)
     {
         IUObject obj = (IUObject) args[0];
 
-        IEnumerable<ICommand> list_command = new List<ICommand>();
+        // IoC.Resolve<IEnumerable<string>>("Game.Config.ForMove").ToList().ForEach(str => list_command.Append(IoC.Resolve<ICommand>(str, obj)));
 
-        IoC.Resolve<IEnumerable<string>>("Game.Config.ForMove").ToList().ForEach(str => list_command.Append(IoC.Resolve<ICommand>(str, obj)));
+        IEnumerable<ICommand> list_command = IoC.Resolve<IEnumerable<ICommand>>("Game.CreateMove", obj);
 
         ICommand macro_сommand = IoC.Resolve<ICommand>("Game.Command.Macro", list_command);
 
