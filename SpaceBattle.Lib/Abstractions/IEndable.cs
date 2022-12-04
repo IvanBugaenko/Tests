@@ -1,8 +1,8 @@
 namespace SpaceBattle.Lib;
 
-public interface IMoveCommandEndable
+public interface IEndable
 {
-    ICommand Move
+    IEnumerable<string> Properties
     {
         get;
     }

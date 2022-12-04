@@ -1,49 +1,75 @@
-// using Moq;
+using Moq;
 
-// namespace SpaceBattle.Lib.Test;
+namespace SpaceBattle.Lib.Test;
 
-// public class StopMoveCommandTests
-// {
-//     public StopMoveCommandTests()
-//     {
-//         var mockCommand = new Mock<ICommand>();
-//         mockCommand.Setup(x => x.Execute());
+public class StopMoveCommandTests
+{
+    public StopMoveCommandTests()
+    {
+        var mockCommand = new Mock<ICommand>();
+        mockCommand.Setup(x => x.Execute());
 
-//         var mockStrategyWithParams = new Mock<IStrategy>();
-//         mockStrategyWithParams.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockCommand.Object);
+        var mockInject = new Mock<IInjectable>();
+        mockInject.Setup(x => x.Inject(It.IsAny<ICommand>()));
 
-//         var mockStrategyWithoutParams = new Mock<IStrategy>();
-//         mockStrategyWithoutParams.Setup(x => x.RunStrategy()).Returns(mockCommand.Object);
+        var mockStrategyReturnCommand = new Mock<IStrategy>();
+        mockStrategyReturnCommand.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockCommand.Object);
 
-//         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.SetProperty", mockStrategyWithParams.Object).Execute();
-//         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.RemoveProperty", mockStrategyWithParams.Object).Execute();
-//         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.EmptyCommand", mockStrategyWithoutParams.Object).Execute();
-// }
+        var mockStrategyReturnEmpty = new Mock<IStrategy>();
+        mockStrategyReturnEmpty.Setup(x => x.RunStrategy()).Returns(new EmptyCommand());
 
-//     [Fact]
-//     public void NormTest()
-//     {
-//         var stopable = new Mock<IMoveCommandEndable>();
-//         var obj = new Mock<IUObject>();
+        var mockStrategyReturnIInjectable = new Mock<IStrategy>();
+        mockStrategyReturnIInjectable.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockInject.Object);
 
-//         stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.RemoveProperty", mockStrategyReturnCommand.Object).Execute();
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.EmptyCommand", mockStrategyReturnEmpty.Object).Execute();
+        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.GetProperty", mockStrategyReturnIInjectable.Object).Execute();
+}
 
-//         ICommand stopMove = new StopMoveCommand(stopable.Object);
+    [Fact]
+    public void NormTest()
+    {
+        var stopable = new Mock<IEndable>();
+        var obj = new Mock<IUObject>();
 
-//         stopMove.Execute();
+        stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
+        stopable.SetupGet(a => a.Properties).Returns(new List<string>(){"Speed"}).Verifiable();
 
-//         stopable.VerifyAll();
-//     }
+        ICommand stopMove = new StopMoveCommand(stopable.Object);
 
-//     [Fact]
-//     public void TargetMethodReturnsException()
-//     {
-//         var stopable = new Mock<IMoveCommandEndable>();
+        stopMove.Execute();
 
-//         stopable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
+        stopable.VerifyAll();
+    }
 
-//         ICommand stopMove = new StopMoveCommand(stopable.Object);
+    [Fact]
+    public void TargetMethodReturnsException()
+    {
+        var stopable = new Mock<IEndable>();
 
-//         Assert.Throws<Exception>(() => stopMove.Execute());
-//     }
-// }
+        stopable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
+        stopable.SetupGet(a => a.Properties).Returns(new List<string>(){"Speed"}).Verifiable();
+
+        ICommand stopMove = new StopMoveCommand(stopable.Object);
+
+        Assert.Throws<Exception>(() => stopMove.Execute());
+
+        // startable.Verify(m => m.Properties, Times.Once());
+    }
+
+    [Fact]
+    public void SpeedMethodReturnsException()
+    {
+        var stopable = new Mock<IEndable>();
+        var obj = new Mock<IUObject>();
+
+        stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
+        stopable.SetupGet(a => a.Properties).Throws<Exception>().Verifiable();
+
+        ICommand startMove = new StopMoveCommand(stopable.Object);
+
+        Assert.Throws<Exception>(() => startMove.Execute());
+    }
+
+    
+}
