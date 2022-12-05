@@ -1,6 +1,6 @@
 namespace SpaceBattle.Lib;
 
-public class IoCAddCommand: ICommand
+public class IoCAddCommand : ICommand
 {
     private IDictionary<string, IStrategy> Dict;
     private string key;

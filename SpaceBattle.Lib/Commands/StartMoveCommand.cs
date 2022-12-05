@@ -1,12 +1,12 @@
 namespace SpaceBattle.Lib;
 
-public class StartMoveCommand: ICommand
+public class StartMoveCommand : ICommand
 {
     private IStartable obj;
     public StartMoveCommand(IStartable obj)
     {
         this.obj = obj;
-    }  
+    }
 
     public void Execute()
     {
@@ -15,7 +15,7 @@ public class StartMoveCommand: ICommand
         ICommand cmd = IoC.Resolve<ICommand>("Game.Operations.Moving", obj.Target);
 
         IoC.Resolve<ICommand>("Game.Commands.SetProperty", obj.Target, "Moving", cmd).Execute();
-        
+
         IoC.Resolve<ICommand>("Game.Queue.Push", IoC.Resolve<Queue<ICommand>>("Game.Queue"), cmd).Execute();
     }
 }

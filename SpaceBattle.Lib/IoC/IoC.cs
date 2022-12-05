@@ -2,8 +2,8 @@ namespace SpaceBattle.Lib;
 
 public class IoC
 {
-    private static IDictionary<string, IStrategy> store; 
-    
+    private static IDictionary<string, IStrategy> store;
+
     static IoC()
     {
         store = new Dictionary<string, IStrategy>();
@@ -12,6 +12,6 @@ public class IoC
     }
     public static T Resolve<T>(string key, params object[] args)
     {
-        return (T) store["IoC.Resolve"].RunStrategy(key, args);
+        return (T)store["IoC.Resolve"].RunStrategy(key, args);
     }
 }

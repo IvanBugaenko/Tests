@@ -1,6 +1,6 @@
 namespace SpaceBattle.Lib;
 
-public class IoCAddStrategy: IStrategy
+public class IoCAddStrategy : IStrategy
 {
     private IDictionary<string, IStrategy> store;
 
@@ -9,10 +9,10 @@ public class IoCAddStrategy: IStrategy
         this.store = store;
     }
 
-    public object RunStrategy(params object[] args) 
+    public object RunStrategy(params object[] args)
     {
-        string key = (string) args[0];
-        IStrategy strategy = (IStrategy) args[1];
+        string key = (string)args[0];
+        IStrategy strategy = (IStrategy)args[1];
         return new IoCAddCommand(this.store, key, strategy);
     }
 }

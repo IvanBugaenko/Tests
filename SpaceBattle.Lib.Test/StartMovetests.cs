@@ -14,12 +14,12 @@ public class StartMoveCommandTests
 
         var mockStrategyWithoutParams = new Mock<IStrategy>();
         mockStrategyWithoutParams.Setup(x => x.RunStrategy()).Returns(new Queue<ICommand>());
-        
+
         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.SetProperty", mockStrategyWithParams.Object).Execute();
         IoC.Resolve<ICommand>("IoC.Add", "Game.Operations.Moving", mockStrategyWithParams.Object).Execute();
         IoC.Resolve<ICommand>("IoC.Add", "Game.Queue.Push", mockStrategyWithParams.Object).Execute();
         IoC.Resolve<ICommand>("IoC.Add", "Game.Queue", mockStrategyWithoutParams.Object).Execute();
-}
+    }
 
     [Fact]
     public void NormTest()
@@ -28,7 +28,7 @@ public class StartMoveCommandTests
         var obj = new Mock<IUObject>();
 
         startable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
-        startable.SetupGet(a => a.Properties).Returns(new Dictionary<string, object>(){{"Speed", new Vector(1, 1)}}).Verifiable();
+        startable.SetupGet(a => a.Properties).Returns(new Dictionary<string, object>() { { "Speed", new Vector(1, 1) } }).Verifiable();
 
         ICommand startMove = new StartMoveCommand(startable.Object);
 
@@ -43,7 +43,7 @@ public class StartMoveCommandTests
         var startable = new Mock<IStartable>();
 
         startable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
-        startable.SetupGet(a => a.Properties).Returns(new Dictionary<string, object>(){{"Speed", new Vector(1, 1)}}).Verifiable();
+        startable.SetupGet(a => a.Properties).Returns(new Dictionary<string, object>() { { "Speed", new Vector(1, 1) } }).Verifiable();
 
         ICommand startMove = new StartMoveCommand(startable.Object);
 
