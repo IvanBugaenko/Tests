@@ -6,8 +6,6 @@ public class MovingStrategy : IStrategy
     {
         IUObject obj = (IUObject) args[0];
 
-        // IoC.Resolve<IEnumerable<string>>("Game.Config.ForMove").ToList().ForEach(str => list_command.Append(IoC.Resolve<ICommand>(str, obj)));
-
         IEnumerable<ICommand> list_command = IoC.Resolve<IEnumerable<ICommand>>("Game.CreateMove", obj);
 
         ICommand macro_сommand = IoC.Resolve<ICommand>("Game.Command.Macro", list_command);

@@ -24,7 +24,7 @@ public class StopMoveCommandTests
         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.RemoveProperty", mockStrategyReturnCommand.Object).Execute();
         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.EmptyCommand", mockStrategyReturnEmpty.Object).Execute();
         IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.GetProperty", mockStrategyReturnIInjectable.Object).Execute();
-}
+    }
 
     [Fact]
     public void NormTest()
@@ -33,7 +33,7 @@ public class StopMoveCommandTests
         var obj = new Mock<IUObject>();
 
         stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
-        stopable.SetupGet(a => a.Properties).Returns(new List<string>(){"Speed"}).Verifiable();
+        stopable.SetupGet(a => a.Properties).Returns(new List<string>() { "Speed" }).Verifiable();
 
         ICommand stopMove = new StopMoveCommand(stopable.Object);
 
@@ -48,13 +48,11 @@ public class StopMoveCommandTests
         var stopable = new Mock<IEndable>();
 
         stopable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
-        stopable.SetupGet(a => a.Properties).Returns(new List<string>(){"Speed"}).Verifiable();
+        stopable.SetupGet(a => a.Properties).Returns(new List<string>() { "Speed" }).Verifiable();
 
         ICommand stopMove = new StopMoveCommand(stopable.Object);
 
         Assert.Throws<Exception>(() => stopMove.Execute());
-
-        // startable.Verify(m => m.Properties, Times.Once());
     }
 
     [Fact]
@@ -70,6 +68,4 @@ public class StopMoveCommandTests
 
         Assert.Throws<Exception>(() => startMove.Execute());
     }
-
-    
 }

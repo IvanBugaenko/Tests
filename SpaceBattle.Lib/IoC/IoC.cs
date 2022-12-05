@@ -12,7 +12,6 @@ public class IoC
     }
     public static T Resolve<T>(string key, params object[] args)
     {
-        // return (T) store[key].RunStrategy(args);
         return (T) store["IoC.Resolve"].RunStrategy(key, args);
     }
 }

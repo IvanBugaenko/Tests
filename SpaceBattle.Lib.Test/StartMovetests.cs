@@ -48,8 +48,6 @@ public class StartMoveCommandTests
         ICommand startMove = new StartMoveCommand(startable.Object);
 
         Assert.Throws<Exception>(() => startMove.Execute());
-
-        // startable.Verify(m => m.Properties, Times.Once());
     }
 
     [Fact]

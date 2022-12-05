@@ -7,7 +7,6 @@ public class MovingStrategyTests
     [Fact]
     public void NormTest()
     {
-
         var mockCommand = new Mock<ICommand>();
 
         var mockListCommand = new Mock<IEnumerable<ICommand>>();
@@ -31,9 +30,5 @@ public class MovingStrategyTests
 
         mockStrategyReturnCommand.VerifyAll();
         mockStrategyReturnsIEnum.VerifyAll();
-
-        
     }
-
-    
 }

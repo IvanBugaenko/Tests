@@ -11,15 +11,3 @@ public interface IStartable
         get;
     }
 }
-
-// public interface IMoveStartable
-// {
-//     IUObject Target
-//     {
-//         get;
-//     }
-//     Vector Speed
-//     {
-//         get;
-//     }
-// }
