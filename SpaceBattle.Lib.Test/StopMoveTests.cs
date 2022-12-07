@@ -29,7 +29,7 @@ public class StopMoveCommandTests
     [Fact]
     public void NormTest()
     {
-        var stopable = new Mock<IEndable>();
+        var stopable = new Mock<IStopable>();
         var obj = new Mock<IUObject>();
 
         stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
@@ -45,7 +45,7 @@ public class StopMoveCommandTests
     [Fact]
     public void TargetMethodReturnsException()
     {
-        var stopable = new Mock<IEndable>();
+        var stopable = new Mock<IStopable>();
 
         stopable.SetupGet(a => a.Target).Throws<Exception>().Verifiable();
         stopable.SetupGet(a => a.Properties).Returns(new List<string>() { "Speed" }).Verifiable();
@@ -58,7 +58,7 @@ public class StopMoveCommandTests
     [Fact]
     public void SpeedMethodReturnsException()
     {
-        var stopable = new Mock<IEndable>();
+        var stopable = new Mock<IStopable>();
         var obj = new Mock<IUObject>();
 
         stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();

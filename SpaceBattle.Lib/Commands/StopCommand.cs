@@ -2,8 +2,8 @@ namespace SpaceBattle.Lib;
 
 public class StopMoveCommand : ICommand
 {
-    private IEndable obj;
-    public StopMoveCommand(IEndable obj)
+    private IStopable obj;
+    public StopMoveCommand(IStopable obj)
     {
         this.obj = obj;
     }

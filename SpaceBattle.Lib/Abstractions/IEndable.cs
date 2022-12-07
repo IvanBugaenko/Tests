@@ -1,6 +1,6 @@
 namespace SpaceBattle.Lib;
 
-public interface IEndable
+public interface IStopable
 {
     IEnumerable<string> Properties
     {
