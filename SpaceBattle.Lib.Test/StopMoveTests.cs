@@ -1,3 +1,6 @@
+using Hwdtech;
+using Hwdtech.Ioc;
+
 using Moq;
 
 namespace SpaceBattle.Lib.Test;
@@ -6,11 +9,15 @@ public class StopMoveCommandTests
 {
     public StopMoveCommandTests()
     {
-        var mockCommand = new Mock<ICommand>();
+        new InitScopeBasedIoCImplementationCommand().Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
+
+        var mockCommand = new Mock<SpaceBattle.Lib.ICommand>();
         mockCommand.Setup(x => x.Execute());
 
         var mockInject = new Mock<IInjectable>();
-        mockInject.Setup(x => x.Inject(It.IsAny<ICommand>()));
+        mockInject.Setup(x => x.Inject(It.IsAny<SpaceBattle.Lib.ICommand>()));
 
         var mockStrategyReturnCommand = new Mock<IStrategy>();
         mockStrategyReturnCommand.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockCommand.Object);
@@ -21,9 +28,9 @@ public class StopMoveCommandTests
         var mockStrategyReturnIInjectable = new Mock<IStrategy>();
         mockStrategyReturnIInjectable.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockInject.Object);
 
-        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.RemoveProperty", mockStrategyReturnCommand.Object).Execute();
-        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.EmptyCommand", mockStrategyReturnEmpty.Object).Execute();
-        IoC.Resolve<ICommand>("IoC.Add", "Game.Commands.GetProperty", mockStrategyReturnIInjectable.Object).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.RemoveProperty", (object[] args) => mockStrategyReturnCommand.Object.RunStrategy(args)).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.EmptyCommand", (object[] args) => mockStrategyReturnEmpty.Object.RunStrategy(args)).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Commands.GetProperty", (object[] args) => mockStrategyReturnIInjectable.Object.RunStrategy(args)).Execute();
     }
 
     [Fact]
@@ -64,8 +71,8 @@ public class StopMoveCommandTests
         stopable.SetupGet(a => a.Target).Returns(obj.Object).Verifiable();
         stopable.SetupGet(a => a.Properties).Throws<Exception>().Verifiable();
 
-        ICommand startMove = new StopMoveCommand(stopable.Object);
+        ICommand stopMove = new StopMoveCommand(stopable.Object);
 
-        Assert.Throws<Exception>(() => startMove.Execute());
+        Assert.Throws<Exception>(() => stopMove.Execute());
     }
 }
