@@ -29,7 +29,7 @@ public class StartMoveCommandTests
     }
 
     [Fact]
-    public void NormTest()
+    public void SuccesfulStartCommandExecute()
     {
         var startable = new Mock<IStartable>();
         var obj = new Mock<IUObject>();
@@ -45,7 +45,7 @@ public class StartMoveCommandTests
     }
 
     [Fact]
-    public void TargetMethodReturnsException()
+    public void TargetMethodReturnsExceptionInStartCommand()
     {
         var startable = new Mock<IStartable>();
 
@@ -58,7 +58,7 @@ public class StartMoveCommandTests
     }
 
     [Fact]
-    public void SpeedMethodReturnsException()
+    public void SpeedMethodReturnsExceptionInStartCommand()
     {
         var startable = new Mock<IStartable>();
         var obj = new Mock<IUObject>();

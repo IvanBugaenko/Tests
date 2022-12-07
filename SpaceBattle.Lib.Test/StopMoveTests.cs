@@ -23,7 +23,7 @@ public class StopMoveCommandTests
         mockStrategyReturnCommand.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockCommand.Object);
 
         var mockStrategyReturnEmpty = new Mock<IStrategy>();
-        mockStrategyReturnEmpty.Setup(x => x.RunStrategy()).Returns(new EmptyCommand());
+        mockStrategyReturnEmpty.Setup(x => x.RunStrategy()).Returns(mockCommand.Object);
 
         var mockStrategyReturnIInjectable = new Mock<IStrategy>();
         mockStrategyReturnIInjectable.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(mockInject.Object);
@@ -34,7 +34,7 @@ public class StopMoveCommandTests
     }
 
     [Fact]
-    public void NormTest()
+    public void SuccesfulStopCommandExecute()
     {
         var stopable = new Mock<IStopable>();
         var obj = new Mock<IUObject>();
@@ -50,7 +50,7 @@ public class StopMoveCommandTests
     }
 
     [Fact]
-    public void TargetMethodReturnsException()
+    public void TargetMethodReturnsExceptionInStopCommand()
     {
         var stopable = new Mock<IStopable>();
 
@@ -63,7 +63,7 @@ public class StopMoveCommandTests
     }
 
     [Fact]
-    public void SpeedMethodReturnsException()
+    public void SpeedMethodReturnsExceptionInStopCommand()
     {
         var stopable = new Mock<IStopable>();
         var obj = new Mock<IUObject>();

@@ -77,6 +77,4 @@ public class Vector
     {
         return String.Join("", vector.Select(x => x.ToString())).GetHashCode();
     }
-
 }
-

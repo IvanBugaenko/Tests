@@ -8,7 +8,7 @@ namespace SpaceBattle.Lib.Test;
 public class MovingStrategyTests
 {
     [Fact]
-    public void NormTest()
+    public void SuccesfulMovingRunStrategy()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
