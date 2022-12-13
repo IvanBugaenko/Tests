@@ -8,7 +8,7 @@ namespace SpaceBattle.Lib.Test;
 public class SolutionTreeTests
 {
     [Fact]
-    public void SuccesfulMovingRunStrategy()
+    public void SuccesfulBuildSolutionTree()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
@@ -19,7 +19,7 @@ public class SolutionTreeTests
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GetSolutionTree", (object[] args) => mockStrategyReturnsDict.Object.RunStrategy(args)).Execute();
 
-        var path = @"C:\Users\bugae\Tests\SpaceBattle.Lib.Test\file.txt";
+        var path = @"..\..\..\file.txt";
 
         var solutiontree = new SolutionTree();
 

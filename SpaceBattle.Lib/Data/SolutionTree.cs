@@ -6,7 +6,7 @@ public class SolutionTree : ISolutionTree
 {
     public void BuildTree(string path)
     {
-        var parametrs = File.ReadAllLines(path).ToList<string>().Select(line => line.Split(" ").Select(int.Parse).ToList<int>()).ToList<List<int>>();
+        var parametrs = File.ReadAllLines(path).ToList().Select(line => line.Split(" ").Select(int.Parse).ToList()).ToList();
 
         var tree = IoC.Resolve<IDictionary<int, object>>("Game.GetSolutionTree");
 
