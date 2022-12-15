@@ -14,14 +14,7 @@ public class SolutionTreeTests
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set", IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))).Execute();
     
         var mockStrategyReturnsDict = new Mock<IStrategy>();
-        mockStrategyReturnsDict.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(new Dictionary<int, object>());
-
-        var mockISolutionTree = new Mock<ISolutionTree>();
-
-        var mockStrategyReturnsBuilder = new Mock<IStrategy>();
-        mockStrategyReturnsBuilder.Setup(x => x.RunStrategy()).Returns(new );
-
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GetSolutionTree", (object[] args) => mockStrategyReturnsDict.Object.RunStrategy(args)).Execute();
+        mockStrategyReturnsDict.Setup(x => x.RunStrategy()).Returns(new Dictionary<int, object>());
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GetSolutionTree", (object[] args) => mockStrategyReturnsDict.Object.RunStrategy(args)).Execute();
     }
@@ -35,21 +28,16 @@ public class SolutionTreeTests
 
         buildCommand.Execute();
 
-        Assert.True(IoC.Resolve<IDictionary<int, object>>("Game.GetSolutionTree").ContainsKey(1));
-    }
+        var t = IoC.Resolve<IDictionary<int, object>>("Game.GetSolutionTree");
 
-    [Fact]
-    public void PathThrowException()
-    {
-        var mockStrategyReturnsDict = new Mock<IStrategy>();
-        mockStrategyReturnsDict.Setup(x => x.RunStrategy(It.IsAny<object[]>())).Returns(new Dictionary<int, object>());
+        Assert.True(t.ContainsKey(1));
+        Assert.True(t.ContainsKey(4));
+        Assert.True(t.ContainsKey(9));
+        Assert.True(t.ContainsKey(0));
 
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.GetSolutionTree", (object[] args) => mockStrategyReturnsDict.Object.RunStrategy(args)).Execute();
+        Assert.True(((IDictionary<int, object>) t[1]).ContainsKey(7));
+        Assert.True(((IDictionary<int, object>) t[1]).ContainsKey(3));
 
-        var path = @"..\..\..\fie.txt";
-
-        var solutiontree = new SolutionTree();
-
-        Assert.Throws<Exception>(() => solutiontree.BuildTree(path));
-    }
+        Assert.True(((IDictionary<int, object>)((IDictionary<int, object>) t[1])[7]).ContainsKey(9));
+    }  
 }

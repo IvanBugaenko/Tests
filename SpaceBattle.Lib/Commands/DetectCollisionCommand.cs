@@ -15,19 +15,13 @@ public class DetectCollisionCommand: ICommand
     {
         var tree = IoC.Resolve<IDictionary<int, object>>("Game.GetSolutionTree");
 
-        var speed1 = IoC.Resolve<Vector>("Game.Commands.GetProperty", obj1, "Speed");
-        var speed2 = IoC.Resolve<Vector>("Game.Commands.GetProperty", obj2, "Speed");
+        var property1 = IoC.Resolve<List<int>>("Game.IUObject.UnionPropertiesForCollision", obj1);
+        var property2 = IoC.Resolve<List<int>>("Game.IUObject.UnionPropertiesForCollision", obj2);
 
-        var pos1 = IoC.Resolve<Vector>("Game.Commands.GetProperty", obj1, "Position");
-        var pos2 = IoC.Resolve<Vector>("Game.Commands.GetProperty", obj2, "Position");
-
-        var parametrs = new List<int>()
-        {
-            pos1[0] - pos1[1], pos2[0] - pos2[1], speed1[0] - speed1[1], speed2[0] - speed2[1]
-        };
+        var parametrs = IoC.Resolve<List<int>>("Game.PrepareDataToCollision", property1, property2);
 
         parametrs.ForEach(num => tree = (IDictionary<int, object>) tree[num]);
 
-        if (tree.Keys.First() != 0) IoC.Resolve<ICommand>("Game.Collision", obj1, obj2).Execute();
+        if (tree.Keys.First() == 1) IoC.Resolve<ICommand>("Game.Collision", obj1, obj2).Execute();
     }
 }
