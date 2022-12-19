@@ -10,7 +10,7 @@ public class CreateRepeatCommandStrategy : IStrategy
         
         IUObject obj = (IUObject)args[1];
 
-        var сommand = IoC.Resolve<ICommand>(name, obj);
+        var сommand = IoC.Resolve<ICommand>("Game.CreateCommand", name, obj);
 
         var repeat_сommand = IoC.Resolve<ICommand>("Game.Command.Repeat", сommand);
 
